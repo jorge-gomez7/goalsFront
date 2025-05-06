@@ -1,6 +1,22 @@
 {
+  "name": "goalsfront",
+  "version": "1.0.0",
+  "description": "To-do list con React",
+  "main": "src/index.jsx",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
-    "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "@reduxjs/toolkit": "^2.7.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-redux": "^9.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^5.4.19"
   }
 }
