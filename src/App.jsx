@@ -1,14 +1,20 @@
 // App.jsx
+import { useSelector, useDispatch } from 'react-redux';
+import { addTask, removeTask } from './redux/tasksSlice';
+
 import React, { useState } from 'react';
 import './style.css';
 
 const App = () => {
-  const [tasks, setTasks] = useState([]);
+  const tasks = useSelector(state => state.tasks);
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     dueDate: '',
   });
+
   const [showMobileForm, setShowMobileForm] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -18,15 +24,16 @@ const App = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    setTasks([...tasks, formData]);
+    dispatch(addTask(formData));
     setFormData({ name: '', description: '', dueDate: '' });
     setShowMobileForm(false);
   };
 
   const handleRemove = index => {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
-    setTasks(updatedTasks);
+    dispatch(removeTask(index));
   };
+
+  
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
