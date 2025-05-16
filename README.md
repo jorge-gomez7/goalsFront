@@ -17,11 +17,13 @@ Una aplicación web desarrollada con **React** que permite agregar y visualizar 
 ## 🖼️ Vista previa
 
 ### Versión web:
-![Web Screenshot]![image](https://github.com/user-attachments/assets/1ad06913-47c6-444a-ae0d-e834c7cb91b9)
+![image](https://github.com/user-attachments/assets/9f4851a7-c0f4-405e-8c27-a07a2358b574)
+
 
 
 ### Versión móvil:
-![Mobile Screenshot]![image](https://github.com/user-attachments/assets/6a827dd4-eab5-4ffa-ba09-302ea3990359)
+![image](https://github.com/user-attachments/assets/f41821c9-9cea-4b6a-8fa8-3e2801ce996b)
+
 
 
 ---
