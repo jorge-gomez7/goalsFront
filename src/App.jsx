@@ -1,12 +1,21 @@
-// App.jsx
-import { useSelector, useDispatch } from 'react-redux';
-import { addTask, removeTask } from './redux/tasksSlice';
-
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  addGoal,
+  removeGoal,
+  addTaskToGoal,
+  toggleTaskCompletion,
+  removeTaskFromGoal
+} from './redux/goalsSlice';
+
+
+
+
 import './style.css';
 
 const App = () => {
-  const tasks = useSelector(state => state.tasks);
+  const goals = useSelector(state => state.goals);
+
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -24,13 +33,14 @@ const App = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addTask(formData));
+    dispatch(addGoal(formData.name, formData.description, formData.dueDate));
+
     setFormData({ name: '', description: '', dueDate: '' });
     setShowMobileForm(false);
   };
 
   const handleRemove = index => {
-    dispatch(removeTask(index));
+    dispatch(removeGoal(index));
   };
 
   
@@ -87,22 +97,55 @@ const App = () => {
 
       {/* Cards */}
       <div className='tasks'>
-        {tasks.map((task, index) => (
-          <div className='task-card' key={index}>
-            <p>
-              <strong>Name:</strong>
-              <br /> {task.name}
-            </p>
-            <p>
-              <strong>Description:</strong>
-              <br /> {task.description}
-            </p>
-            <p>
-              <strong>Due Date:</strong> {task.dueDate}
-            </p>
-            <button onClick={() => handleRemove(index)}>Remove</button>
-          </div>
+    {goals.map((goal) => (
+  <div className='task-card' key={goal.id}>
+    <p><strong>Name:</strong><br /> {goal.title}</p>
+    <p><strong>Description:</strong><br /> {goal.description}</p>
+    <p><strong>Due Date:</strong> {goal.deadline}</p>
+    <button onClick={() => handleRemove(goal.id)}>Remove Goal</button>
+
+    {/* Tareas internas */}
+    <div className='task-list'>
+      <p><strong>Tasks:</strong></p>
+      <ul>
+        {goal.tasks.map(task => (
+          <li key={task.id}>
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={() =>
+                dispatch(toggleTaskCompletion({ goalId: goal.id, taskId: task.id }))
+              }
+            />
+            {task.title}
+            <button onClick={() => dispatch(removeTaskFromGoal({ goalId: goal.id, taskId: task.id }))}>❌</button>
+          </li>
         ))}
+      </ul>
+    </div>
+
+    {/* Formulario para agregar tarea */}
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+        const input = e.target.elements[`task-${goal.id}`];
+        if (input.value.trim()) {
+          dispatch(addTaskToGoal(goal.id, input.value));
+          input.value = '';
+        }
+      }}
+    >
+      <input
+        type="text"
+        name={`task-${goal.id}`}
+        placeholder="New Task"
+        required
+      />
+      <button type="submit">Add Task</button>
+    </form>
+  </div>
+))}
+
       </div>
     </div>
   );
